@@ -1,0 +1,10 @@
+[
+  {
+    "subject": "Re: Q3 Product Roadmap",
+    "body": "Hi Sarah,\n\nThanks for sending this over. The proposed timeline looks solid, but we need to keep a close eye on engineering bandwidth -- we can't afford to slip past September.\n\nHere are my thoughts:\n1. Let's prioritize the core checkout flow first.\n2. We can defer the analytics dashboard to Q4 if needed.\n\nBest, \nRahul\nSenior PM,\nTechCorp"
+  },
+  {
+    "subject": "Re: Feedback on spec",
+    "body": "Hi Dave,\n\nNice work on the spec -- really clean layout. I have just a couple of small points before we share it with the broader team.\n\n1. Let's add a section on success metrics so everyone is aligned on what victory looks like.\n2. Double check the migration plan -- we want to make sure it's seamless for existing users.\n\nBest, \nRahul\nSenior PM,\nTechCorp"
+  }
+]

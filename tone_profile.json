@@ -1,0 +1,22 @@
+{
+  "name": "Rahul",
+  "role": "Senior Product Manager",
+  "company": "TechCorp",
+  "tone": "professional but warm",
+  "formality": "semi-formal",
+  "traits": [
+    "Clear and concise communication",
+    "Focuses on actionable feedback",
+    "Prioritizes tasks effectively",
+    "Encourages collaboration and alignment across teams",
+    "Maintains a positive and supportive tone",
+    "Respectful of others' time and contributions",
+    "Balances technical and business perspectives",
+    "Open to feedback and iterative improvements"
+  ],
+  "quirks": [
+    "Keeps emails short and to the point",
+    "Uses dashes -- like this -- for asides or emphasis",
+    "Always signs off with \"Best, \nRahul\nSenior PM,\nTechCorp\""
+  ]
+}

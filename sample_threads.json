@@ -1,0 +1,67 @@
+[
+    {
+        "id": "thread_001",
+        "subject": "URGENT: Production Incident - High Severity",
+        "messages": [
+            {
+                "from": "devops@example.com",
+                "date": "2023-10-26T09:00:00Z",
+                "body": "Team, we have a critical production incident affecting user logins. Customers are reporting 500 errors. Investigating now, will provide updates shortly. Severity: P1."
+            },
+            {
+                "from": "oncall@example.com",
+                "date": "2023-10-26T09:15:00Z",
+                "body": "Confirmed issue is with the authentication service. Rolling back recent deployment to staging. Monitoring for recovery."
+            }
+        ]
+    },
+    {
+        "id": "thread_002",
+        "subject": "Q3 Performance Review Feedback Request - Due EOD Friday",
+        "messages": [
+            {
+                "from": "manager@example.com",
+                "date": "2023-10-25T14:30:00Z",
+                "body": "Hi Team, \n\nPlease submit your self-review and peer feedback for Q3 performance reviews by end of day Friday. Let me know if you have any questions. \n\nThanks,\n[Manager Name]"
+            }
+        ]
+    },
+    {
+        "id": "thread_003",
+        "subject": "Weekly Standup Notes - Oct 23, 2023",
+        "messages": [
+            {
+                "from": "noreply@example.com",
+                "date": "2023-10-23T11:00:00Z",
+                "body": "Hi All, \n\nHere are the notes from today's standup: \n- [Team Member 1]: Working on feature X, blocked by Y. \n- [Team Member 2]: Completed task Z, starting on A. \n- [Team Member 3]: OOO. \n\nAction Items: None. \n\nThanks,\n[Team Lead]"
+            }
+        ]
+    },
+    {
+        "id": "thread_004",
+        "subject": "Follow-up: Vendor Contract for Q4",
+        "messages": [
+            {
+                "from": "legal@example.com",
+                "date": "2023-10-24T10:00:00Z",
+                "body": "Hi [Your Name], \n\nFollowing up on the vendor contract for Q4. We need your team's sign-off on Section 3.2 by end of day tomorrow to avoid delays. Please review and provide your comments. \n\nBest,\n[Legal Contact]"
+            },
+            {
+                "from": "you@example.com",
+                "date": "2023-10-24T10:30:00Z",
+                "body": "Thanks for the reminder! I'll get the team on it right away and send over our feedback by EOD."
+            }
+        ]
+    },
+    {
+        "id": "thread_005",
+        "subject": "Meeting Request: Design Review for Project Alpha",
+        "messages": [
+            {
+                "from": "designteam@example.com",
+                "date": "2023-10-25T16:00:00Z",
+                "body": "Hi Team, \n\nWe'd like to schedule a design review for Project Alpha next week. Please let us know your availability for a 1-hour slot on Tuesday or Wednesday. \n\nThanks,\n[Design Lead]"
+            }
+        ]
+    }
+]
