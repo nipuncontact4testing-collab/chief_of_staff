@@ -4,11 +4,26 @@ try:
 except Exception:
     genai = None
 
+
+def _load_dotenv_fallback(path=None):
+    env_path = path or os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+    if not os.path.exists(env_path):
+        return False
+
+    with open(env_path, "r", encoding="utf-8") as env_file:
+        for raw_line in env_file:
+            line = raw_line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            os.environ[key.strip()] = value.strip().strip('"').strip("'")
+    return True
+
 try:
     from dotenv import load_dotenv
 except ImportError:
     def load_dotenv(*args, **kwargs):
-        return False
+        return _load_dotenv_fallback(*args, **kwargs)
 
 load_dotenv()
 
