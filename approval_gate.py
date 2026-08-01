@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import importlib
 from datetime import datetime
 
 
@@ -33,10 +34,14 @@ if script_dir not in sys.path:
 
 from draft_machine import SAMPLE_THREADS, draft_reply
 
+genai = None
 try:
     import google.generativeai as genai
 except ImportError:
-    genai = None
+    try:
+        genai = importlib.import_module("google.genai")
+    except ImportError:
+        genai = None
 
 # Page config
 st.set_page_config(
@@ -136,12 +141,16 @@ api_key = None
 try:
     if "GENAI_API_KEY" in st.secrets:
         api_key = st.secrets["GENAI_API_KEY"]
+elif "GOOGLE_API_KEY" in st.secrets:
+        api_key = st.secrets["GOOGLE_API_KEY"]
 except Exception:
     pass
 
 if not api_key:
     if os.environ.get("GENAI_API_KEY"):
         api_key = os.environ.get("GENAI_API_KEY")
+    elif os.environ.get("GOOGLE_API_KEY"):
+        api_key = os.environ.get("GOOGLE_API_KEY")
 
 # Sidebar for API key input if not found in secrets/env
 st.sidebar.title("Configuration")
@@ -150,13 +159,16 @@ if not api_key:
     if api_key_input:
         api_key = api_key_input
         os.environ["GENAI_API_KEY"] = api_key
-        # Re-configure Google AI module
-        genai.configure(api_key=api_key)
+        os.environ["GOOGLE_API_KEY"] = api_key
+        if genai is not None and hasattr(genai, "configure"):
+            genai.configure(api_key=api_key)
 else:
     st.sidebar.success("Gemini API Key loaded successfully.")
     # Ensure it's set in os.environ for draft_machine to read
     os.environ["GENAI_API_KEY"] = api_key
-    genai.configure(api_key=api_key)
+    os.environ["GOOGLE_API_KEY"] = api_key
+    if genai is not None and hasattr(genai, "configure"):
+        genai.configure(api_key=api_key)
 
 # 2. STATE MANAGEMENT INITIALIZATION
 if "current_draft" not in st.session_state:

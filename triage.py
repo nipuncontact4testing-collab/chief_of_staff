@@ -1,8 +1,14 @@
 import os
+import importlib
+
+genai = None
 try:
     import google.generativeai as genai
 except Exception:
-    genai = None
+    try:
+        genai = importlib.import_module("google.genai")
+    except Exception:
+        genai = None
 
 
 def _load_dotenv_fallback(path=None):

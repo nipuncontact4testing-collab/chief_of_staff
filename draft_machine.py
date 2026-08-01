@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import importlib
 
 
 def _load_dotenv_fallback(path=None):
@@ -28,10 +29,53 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 if script_dir not in sys.path:
     sys.path.append(script_dir)
 
+genai = None
+
 try:
     import google.generativeai as genai
 except ImportError:
-    genai = None
+    try:
+        genai = importlib.import_module("google.genai")
+    except ImportError:
+        genai = None
+
+
+def _configure_gemini(api_key_value):
+    if not api_key_value or genai is None:
+        return False
+
+    if hasattr(genai, "configure"):
+        genai.configure(api_key=api_key_value)
+        return True
+
+    if hasattr(genai, "Client"):
+        return True
+
+    return False
+
+
+def _generate_content_with_gemini(system_prompt, user_prompt, api_key_value=None):
+    if genai is None:
+        raise ImportError("google-generativeai package is not installed.")
+
+    if hasattr(genai, "GenerativeModel"):
+        model = genai.GenerativeModel(
+            "gemini-2.5-flash",
+            system_instruction=system_prompt,
+        )
+        response = model.generate_content(user_prompt)
+        return getattr(response, "text", str(response)).strip()
+
+    if hasattr(genai, "Client"):
+        client = genai.Client(api_key=api_key_value or api_key)
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=user_prompt,
+            config={"system_instruction": system_prompt},
+        )
+        return getattr(response, "text", str(response)).strip()
+
+    raise ImportError("google-generativeai package is not installed.")
 
 from context_builder import assemble_context
 
@@ -89,9 +133,9 @@ SAMPLE_THREADS = [
 load_dotenv(os.path.join(script_dir, ".env"))
 
 # Configure Gemini
-api_key = os.environ.get("GENAI_API_KEY")
-if api_key and genai:
-    genai.configure(api_key=api_key)
+api_key = os.environ.get("GENAI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+if api_key:
+    _configure_gemini(api_key)
 
 def draft_reply(thread):
     """
@@ -99,7 +143,7 @@ def draft_reply(thread):
     adds the drafting rules, calls Gemini, and returns ONLY the draft text.
     """
     if not api_key:
-        raise ValueError("GENAI_API_KEY environment variable is missing.")
+        raise ValueError("GENAI_API_KEY/GOOGLE_API_KEY environment variable is missing.")
     if not genai:
         raise ImportError("google-generativeai package is not installed.")
 
@@ -124,11 +168,7 @@ e. NO METADATA OR SUBJECT: Do NOT include any Subject line, explanation, notes, 
     system_prompt_with_rules = f"{system_prompt}\n\n{drafting_rules}"
 
     # 3. Call Gemini
-    # Trying gemini-1.5-flash-latest as gemini-1.5-flash returned 404
-    model = genai.GenerativeModel("gemini-2.5-flash", system_instruction=system_prompt_with_rules)
-    response = model.generate_content(user_prompt)
-    
-    draft = response.text.strip()
+    draft = _generate_content_with_gemini(system_prompt_with_rules, user_prompt, api_key)
     
     # Clean up accidental subject line or header if generated
     lines = draft.split("\n")
