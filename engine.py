@@ -198,7 +198,7 @@ def fetch_threads() -> list:
         search_res = client.call_tool("search_emails", {"query": "in:inbox", "maxResults": 50})
 
         if "error" in search_res or "result" not in search_res:
-            print(f"Error searching emails: {search_res.get("error", "Unknown error")}")
+            print(f'Error searching emails: {search_res.get("error", "Unknown error")}')
             return []
 
         content_list = search_res["result"].get("content", [])

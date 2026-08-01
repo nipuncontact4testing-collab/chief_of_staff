@@ -2,7 +2,13 @@ import os
 import sys
 import json
 from datetime import datetime
-from dotenv import load_dotenv
+
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    def load_dotenv(*args, **kwargs):
+        return False
+
 import streamlit as st
 
 # Configure script directory and system path for relative imports
@@ -11,7 +17,11 @@ if script_dir not in sys.path:
     sys.path.append(script_dir)
 
 from draft_machine import SAMPLE_THREADS, draft_reply
-import google.generativeai as genai
+
+try:
+    import google.generativeai as genai
+except ImportError:
+    genai = None
 
 # Page config
 st.set_page_config(

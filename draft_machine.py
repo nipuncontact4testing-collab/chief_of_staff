@@ -1,7 +1,12 @@
 import os
 import sys
 import json
-from dotenv import load_dotenv
+
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    def load_dotenv(*args, **kwargs):
+        return False
 
 # Ensure the script directory is in python path for importing context_builder
 script_dir = os.path.dirname(os.path.abspath(__file__))
